@@ -1,10 +1,14 @@
-package net.ivango.liderboard;
+package net.ivango.liderboard.storage;
 
-import net.ivango.liderboard.types.Player;
+import lombok.extern.java.Log;
+import net.ivango.liderboard.storage.types.Player;
+import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@Component
+@Log
 public class LiderboardDAO {
 
     private List<Player> players = new ArrayList<>();

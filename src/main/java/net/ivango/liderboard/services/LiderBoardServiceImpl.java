@@ -1,18 +1,25 @@
-package net.ivango.liderboard;
+package net.ivango.liderboard.services;
 
-import net.ivango.liderboard.types.Player;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.extern.java.Log;
+import net.ivango.liderboard.storage.LiderboardDAO;
+import net.ivango.liderboard.storage.types.Player;
+import org.joda.time.DateTime;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.util.Collections;
 import java.util.List;
 
+@Component
+@Log
 public class LiderBoardServiceImpl implements LiderboardService {
 
-    private static final int DEFAULT_LIDERBOARD_LENGTH = 10;
-    private LiderboardDAO liderboardDAO;
+    @Autowired private LiderboardDAO liderboardDAO;
+    @Getter @Setter private String url;
 
-    private String liderboardServiceURL;
-    @Override public void setURL(String newUrl) { this.liderboardServiceURL = newUrl; }
-    @Override public String getURL() { return this.liderboardServiceURL; }
+    private static final int DEFAULT_LIDERBOARD_LENGTH = 50;
 
     @Override
     public List<Player> getLiderboard() { return liderboardDAO.getPlayers(0, DEFAULT_LIDERBOARD_LENGTH); }
@@ -27,7 +34,7 @@ public class LiderBoardServiceImpl implements LiderboardService {
     }
 
     @Override
-    public List<Player> getLiderboard(long datetimeFrom, long dateTimeTo) {
+    public List<Player> getLiderboard(DateTime from, DateTime to) {
         return null;
     }
 
