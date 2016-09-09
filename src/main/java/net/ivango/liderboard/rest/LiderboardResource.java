@@ -10,12 +10,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.ws.rs.*;
+import javax.ws.rs.core.MediaType;
 
 @Component
 @Log
 @Path("leaderboard")
-@Consumes("application/json; charset=UTF-8")
-@Produces("application/json; charset=UTF-8")
+@Consumes(MediaType.APPLICATION_JSON)
+@Produces(MediaType.APPLICATION_JSON)
 public class LiderboardResource {
 
     @Autowired private LiderboardService liderboardService;
@@ -32,6 +33,7 @@ public class LiderboardResource {
         );
     }
 
+    @Path("/timed")
     @POST
     public Response getLiderBoard(LiderboardTimedRequest request) {
         return new LiderboardResponse(

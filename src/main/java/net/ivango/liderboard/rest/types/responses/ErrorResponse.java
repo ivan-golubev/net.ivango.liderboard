@@ -1,8 +1,10 @@
 package net.ivango.liderboard.rest.types.responses;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
-@Data
+@Getter
+@Setter
 public class ErrorResponse extends Response {
     private int code;
     private String message;

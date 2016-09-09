@@ -1,6 +1,7 @@
 package net.ivango.liderboard;
 
 import net.ivango.liderboard.rest.LiderboardResource;
+import net.ivango.liderboard.rest.UncaughtExceptionMapper;
 import org.glassfish.jersey.server.ResourceConfig;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -11,5 +12,6 @@ import org.springframework.context.annotation.Configuration;
 public class AppConfig extends ResourceConfig {
     public AppConfig() {
         register(LiderboardResource.class);
+        register(UncaughtExceptionMapper.class);
     }
 }

@@ -1,11 +1,12 @@
 package net.ivango.liderboard.storage.types;
 
-import lombok.Data;
-import lombok.NonNull;
+import lombok.*;
 
-@Data
+@Getter
+@Setter
+@RequiredArgsConstructor
 public class Player {
     private int place, score;
-    private @NonNull int id;
+    private final int id;
     private @NonNull String name, avatarURL;
 }
