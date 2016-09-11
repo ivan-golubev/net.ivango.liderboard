@@ -1,9 +1,11 @@
 package net.ivango.liderboard.rest;
 
 import lombok.extern.java.Log;
+import net.ivango.liderboard.rest.types.requests.ChangeBanStatusRequest;
 import net.ivango.liderboard.rest.types.requests.LiderboardRangeRequest;
 import net.ivango.liderboard.rest.types.requests.LiderboardTimedRequest;
 import net.ivango.liderboard.rest.types.responses.LiderboardResponse;
+import net.ivango.liderboard.rest.types.responses.Response;
 import net.ivango.liderboard.services.LiderboardService;
 
 import javax.inject.Inject;
@@ -41,6 +43,20 @@ public class LiderboardResource {
         return new LiderboardResponse(
                 liderboardService.getLiderboard(request.getFromTime(), request.getToTime())
         );
+    }
+
+    @Path("/ban")
+    @POST
+    public Response banPlayers(ChangeBanStatusRequest request) {
+        liderboardService.banPlayers(request.getUserIds());
+        return new Response();
+    }
+
+    @Path("/unban")
+    @POST
+    public Response unbanPlayers(ChangeBanStatusRequest request) {
+        liderboardService.unbanPlayers(request.getUserIds());
+        return new Response();
     }
 
 }

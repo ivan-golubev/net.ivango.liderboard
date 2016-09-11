@@ -27,7 +27,11 @@ public class LiderBoardServiceImpl implements LiderboardService {
     }
 
     @Override
-    public List<Player> getLiderboard() { return liderboardDAO.getPlayers(0, DEFAULT_LIDERBOARD_LENGTH); }
+    public List<Player> getLiderboard() {
+        /* just get 50 liders for the last day */
+        DateTime end = new DateTime(), start = end.minusDays(1);
+        return liderboardDAO.getPlayers(1, DEFAULT_LIDERBOARD_LENGTH, start, end);
+    }
 
     /**
      * @return bounded liderboard or empty list if wrong parameters are submitted.
@@ -35,17 +39,25 @@ public class LiderBoardServiceImpl implements LiderboardService {
     @Override
     public List<Player> getLiderboard(int from, int to) {
         if (from < 0 || to <=0 || to < from) { return Collections.emptyList(); }
-        else return liderboardDAO.getPlayers(from, to);
+                /* just get 50 liders for the last day */
+        DateTime end = new DateTime(), start = end.minusDays(1);
+        return liderboardDAO.getPlayers(from, to, start, end);
     }
 
     @Override
     public List<Player> getLiderboard(DateTime from, DateTime to) {
-        return null;
+        return liderboardDAO.getPlayers(1, DEFAULT_LIDERBOARD_LENGTH, from, to);
     }
 
     /**
      * Removes the specified players from the liderboards.
      * */
     @Override
-    public void banPlayers(List<Integer> playerIds) { liderboardDAO.removePlayers(playerIds); }
+    public void banPlayers(List<Integer> playerIds) { liderboardDAO.changeBanStatus(playerIds, true); }
+
+    /**
+     * Adds the previously banned players back to the liderboards.
+     * */
+    @Override
+    public void unbanPlayers(List<Integer> playerIds) { liderboardDAO.changeBanStatus(playerIds, false); }
 }
