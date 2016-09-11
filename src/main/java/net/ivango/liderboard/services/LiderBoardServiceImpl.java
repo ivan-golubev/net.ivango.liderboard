@@ -3,23 +3,28 @@ package net.ivango.liderboard.services;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.java.Log;
-import net.ivango.liderboard.storage.LiderboardDAO;
+import net.ivango.liderboard.storage.LiderboardDAOImpl;
 import net.ivango.liderboard.storage.types.Player;
 import org.joda.time.DateTime;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
 import java.util.Collections;
 import java.util.List;
 
-@Component
 @Log
+@Singleton
 public class LiderBoardServiceImpl implements LiderboardService {
 
-    @Autowired private LiderboardDAO liderboardDAO;
+    private LiderboardDAOImpl liderboardDAO;
     @Getter @Setter private String url;
 
     private static final int DEFAULT_LIDERBOARD_LENGTH = 50;
+
+    @Inject
+    public LiderBoardServiceImpl(LiderboardDAOImpl liderboardDAO) {
+        this.liderboardDAO = liderboardDAO;
+    }
 
     @Override
     public List<Player> getLiderboard() { return liderboardDAO.getPlayers(0, DEFAULT_LIDERBOARD_LENGTH); }
