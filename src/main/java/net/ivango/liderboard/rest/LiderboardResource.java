@@ -4,7 +4,6 @@ import lombok.extern.java.Log;
 import net.ivango.liderboard.rest.types.requests.LiderboardRangeRequest;
 import net.ivango.liderboard.rest.types.requests.LiderboardTimedRequest;
 import net.ivango.liderboard.rest.types.responses.LiderboardResponse;
-import net.ivango.liderboard.rest.types.responses.Response;
 import net.ivango.liderboard.services.LiderboardService;
 
 import javax.inject.Inject;
@@ -25,12 +24,12 @@ public class LiderboardResource {
     }
 
     @GET
-    public Response getLiderboard(){
+    public LiderboardResponse getLiderboard(){
         return new LiderboardResponse(liderboardService.getLiderboard());
     }
 
     @POST
-    public Response getLiderboard(LiderboardRangeRequest request) {
+    public LiderboardResponse getLiderboard(LiderboardRangeRequest request) {
         return new LiderboardResponse(
                 liderboardService.getLiderboard(request.getFrom(), request.getTo())
         );
@@ -38,7 +37,7 @@ public class LiderboardResource {
 
     @Path("/timed")
     @POST
-    public Response getLiderBoard(LiderboardTimedRequest request) {
+    public LiderboardResponse getLiderBoard(LiderboardTimedRequest request) {
         return new LiderboardResponse(
                 liderboardService.getLiderboard(request.getFromTime(), request.getToTime())
         );

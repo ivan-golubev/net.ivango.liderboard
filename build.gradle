@@ -21,11 +21,13 @@ dependencies {
             'org.glassfish.jersey.containers:jersey-container-servlet:2.23.2',
             'com.sun.jersey.contribs:jersey-guice:1.19.2',
             'com.owlike:genson:1.4',
+            'com.h2database:h2:1.4.192',
+            'org.hsqldb:hsqldb:2.3.4',
+            'org.springframework:spring-jdbc:4.3.2.RELEASE',
             'joda-time:joda-time:2.9.4',
             'org.slf4j:slf4j-log4j12:1.7.21'
 
     compileOnly 'org.projectlombok:lombok:1.16.10'
 
-    testCompile 'org.testng:testng:6.9.10',
-                'com.h2database:h2:1.4.192'
+    testCompile 'org.testng:testng:6.9.10'
 }

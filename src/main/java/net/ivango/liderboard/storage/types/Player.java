@@ -4,9 +4,10 @@ import lombok.*;
 
 @Getter
 @Setter
+@AllArgsConstructor
 @RequiredArgsConstructor
 public class Player {
-    private int place, score;
     private final int id;
+    private int place, score;
     private @NonNull String name, avatarURL;
 }
