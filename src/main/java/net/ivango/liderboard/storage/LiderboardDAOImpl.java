@@ -3,7 +3,6 @@ package net.ivango.liderboard.storage;
 import lombok.extern.java.Log;
 import net.ivango.liderboard.storage.types.Player;
 import net.ivango.liderboard.storage.types.PlayerMapper;
-import org.h2.jdbcx.JdbcDataSource;
 import org.joda.time.DateTime;
 import org.springframework.jdbc.core.BatchPreparedStatementSetter;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -17,6 +16,7 @@ import javax.sql.DataSource;
 import java.sql.*;
 import java.util.*;
 import java.util.Date;
+import com.google.common.collect.ImmutableMap;
 
 import static net.ivango.liderboard.storage.SQLRequests.INSERT_PLAYER;
 import static net.ivango.liderboard.storage.SQLRequests.SELECT_LIDERBOARD;
@@ -47,10 +47,9 @@ public class LiderboardDAOImpl implements LiderboardDAO {
      * Adds a new player to the database and returns the user id.
      * */
     public long addPlayer(String name, String avatarURL) {
-        Map<String, Object> parameters = new HashMap<>();
-        parameters.put("name", name);
-        parameters.put("avatar", avatarURL);
-        return simpleJdbcInsert.executeAndReturnKey(parameters).longValue();
+        return simpleJdbcInsert.executeAndReturnKey(
+                ImmutableMap.of("name", name, "avatar", avatarURL)
+        ).longValue();
     }
 
     public void changeBanStatus(List<Integer> bannedList, boolean ban){
