@@ -17,7 +17,6 @@ import java.util.List;
 public class LiderBoardServiceImpl implements LiderboardService {
 
     private LiderboardDAOImpl liderboardDAO;
-    @Getter @Setter private String url;
 
     private static final int DEFAULT_LIDERBOARD_LENGTH = 50;
 

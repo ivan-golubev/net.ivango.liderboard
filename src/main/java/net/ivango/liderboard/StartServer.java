@@ -13,7 +13,15 @@ import java.util.EnumSet;
 public class StartServer {
 
     public static void main(String[] args) throws Exception {
+        new StartServer().startServer();
+    }
 
+    public void startServer() throws Exception {
+        Server server = startServerAsync();
+        server.join();
+    }
+
+    public Server startServerAsync() throws Exception {
         Guice.createInjector(
                 Stage.DEVELOPMENT,
                 new LiderboardModule()
@@ -25,7 +33,7 @@ public class StartServer {
         context.addServlet(DefaultServlet.class, "/*");
 
         server.start();
-        server.join();
+        return server;
     }
 
 }

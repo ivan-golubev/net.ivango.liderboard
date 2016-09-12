@@ -8,9 +8,6 @@ import java.util.List;
 
 public interface LiderboardService {
 
-    void setUrl(String newUrl);
-    String getUrl();
-
     List<Player> getLiderboard();
     List<Player> getLiderboard(int from, int to);
     List<Player> getLiderboard(DateTime from, DateTime to);

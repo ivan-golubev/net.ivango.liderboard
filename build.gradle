@@ -29,5 +29,7 @@ dependencies {
 
     compileOnly 'org.projectlombok:lombok:1.16.10'
 
-    testCompile 'org.testng:testng:6.9.10'
+    testCompile 'org.testng:testng:6.9.10',
+                'com.jayway.restassured:rest-assured:2.9.0'
+
 }

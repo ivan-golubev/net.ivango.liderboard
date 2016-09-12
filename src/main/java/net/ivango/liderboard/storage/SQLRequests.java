@@ -12,4 +12,6 @@ public interface SQLRequests {
 
     String UPDATE_BAN_STATUS = "UPDATE player SET banned=? WHERE id=?";
 
+    String INSERT_PLAYER = "INSERT INTO player (name, avatar) VALUES (?, ?)";
+
 }
