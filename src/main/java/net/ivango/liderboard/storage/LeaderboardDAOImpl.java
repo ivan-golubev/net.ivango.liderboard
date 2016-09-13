@@ -7,32 +7,28 @@ import org.joda.time.DateTime;
 import org.springframework.jdbc.core.BatchPreparedStatementSetter;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.PreparedStatementSetter;
-import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
 
 import javax.inject.Singleton;
 import javax.sql.DataSource;
-import java.sql.*;
-import java.util.*;
-import java.util.Date;
-import com.google.common.collect.ImmutableMap;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.util.List;
 
-import static net.ivango.liderboard.storage.SQLRequests.INSERT_PLAYER;
 import static net.ivango.liderboard.storage.SQLRequests.SELECT_LIDERBOARD;
 import static net.ivango.liderboard.storage.SQLRequests.UPDATE_BAN_STATUS;
 
 @Log
 @Singleton
-public class LiderboardDAOImpl implements LiderboardDAO {
+public class LeaderboardDAOImpl implements LeaderboardDAO {
 
     private JdbcTemplate jdbcTemplate;
-    private SimpleJdbcInsert simpleJdbcInsert;
     private PlayerMapper playerMapper = new PlayerMapper();
 
-    public LiderboardDAOImpl() {
+    public LeaderboardDAOImpl() {
         this.jdbcTemplate = new JdbcTemplate(getDataSource());
-        this.simpleJdbcInsert = new SimpleJdbcInsert(jdbcTemplate).withTableName("player").usingGeneratedKeyColumns("player_id");
     }
 
     private DataSource getDataSource(){
@@ -41,15 +37,6 @@ public class LiderboardDAOImpl implements LiderboardDAO {
                 .addScript("sql/create-db.sql")
                 .addScript("sql/insert-data.sql")
                 .build();
-    }
-
-    /**
-     * Adds a new player to the database and returns the user id.
-     * */
-    public long addPlayer(String name, String avatarURL) {
-        return simpleJdbcInsert.executeAndReturnKey(
-                ImmutableMap.of("name", name, "avatar", avatarURL)
-        ).longValue();
     }
 
     public void changeBanStatus(List<Integer> bannedList, boolean ban){

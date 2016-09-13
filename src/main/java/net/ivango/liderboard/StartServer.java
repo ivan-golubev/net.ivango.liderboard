@@ -16,15 +16,21 @@ public class StartServer {
         new StartServer().startServer();
     }
 
+    /**
+     * starts the server and blocks the current thread
+     * */
     public void startServer() throws Exception {
         Server server = startServerAsync();
         server.join();
     }
 
+    /**
+     * starts the server in background
+     * */
     public Server startServerAsync() throws Exception {
         Guice.createInjector(
                 Stage.DEVELOPMENT,
-                new LiderboardModule()
+                new LeaderboardModule()
         );
 
         Server server = new Server(8080);

@@ -1,9 +1,7 @@
 package net.ivango.liderboard.services;
 
-import lombok.Getter;
-import lombok.Setter;
 import lombok.extern.java.Log;
-import net.ivango.liderboard.storage.LiderboardDAOImpl;
+import net.ivango.liderboard.storage.LeaderboardDAOImpl;
 import net.ivango.liderboard.storage.types.Player;
 import org.joda.time.DateTime;
 
@@ -14,20 +12,20 @@ import java.util.List;
 
 @Log
 @Singleton
-public class LiderBoardServiceImpl implements LiderboardService {
+public class LeaderBoardServiceImpl implements LeaderboardService {
 
-    private LiderboardDAOImpl liderboardDAO;
+    private LeaderboardDAOImpl liderboardDAO;
 
     private static final int DEFAULT_LIDERBOARD_LENGTH = 50;
 
     @Inject
-    public LiderBoardServiceImpl(LiderboardDAOImpl liderboardDAO) {
+    public LeaderBoardServiceImpl(LeaderboardDAOImpl liderboardDAO) {
         this.liderboardDAO = liderboardDAO;
     }
 
     @Override
-    public List<Player> getLiderboard() {
-        /* just get 50 liders for the last day */
+    public List<Player> getLeaderboard() {
+        /* just get 50 leaders for the last day */
         DateTime end = new DateTime(), start = end.minusDays(1);
         return liderboardDAO.getPlayers(1, DEFAULT_LIDERBOARD_LENGTH, start, end);
     }
@@ -36,7 +34,7 @@ public class LiderBoardServiceImpl implements LiderboardService {
      * @return bounded liderboard or empty list if wrong parameters are submitted.
      * */
     @Override
-    public List<Player> getLiderboard(int from, int to) {
+    public List<Player> getLeaderboard(int from, int to) {
         if (from < 0 || to <=0 || to < from) { return Collections.emptyList(); }
                 /* just get 50 liders for the last day */
         DateTime end = new DateTime(), start = end.minusDays(1);
@@ -44,18 +42,18 @@ public class LiderBoardServiceImpl implements LiderboardService {
     }
 
     @Override
-    public List<Player> getLiderboard(DateTime from, DateTime to) {
+    public List<Player> getLeaderboard(DateTime from, DateTime to) {
         return liderboardDAO.getPlayers(1, DEFAULT_LIDERBOARD_LENGTH, from, to);
     }
 
     /**
-     * Removes the specified players from the liderboards.
+     * Removes the specified players from the leaderboards.
      * */
     @Override
     public void banPlayers(List<Integer> playerIds) { liderboardDAO.changeBanStatus(playerIds, true); }
 
     /**
-     * Adds the previously banned players back to the liderboards.
+     * Adds the previously banned players back to the leaderboards.
      * */
     @Override
     public void unbanPlayers(List<Integer> playerIds) { liderboardDAO.changeBanStatus(playerIds, false); }

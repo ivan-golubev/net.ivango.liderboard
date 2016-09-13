@@ -2,13 +2,14 @@ package net.ivango.liderboard;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Ordering;
-import com.owlike.genson.GenericType;
 import com.owlike.genson.Genson;
 import net.ivango.liderboard.rest.types.requests.ChangeBanStatusRequest;
 import net.ivango.liderboard.rest.types.requests.LiderboardRangeRequest;
+import net.ivango.liderboard.rest.types.requests.LiderboardTimedRequest;
 import net.ivango.liderboard.rest.types.responses.LiderboardResponse;
 import net.ivango.liderboard.storage.types.Player;
 import org.eclipse.jetty.server.Server;
+import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.testng.Assert;
@@ -17,24 +18,22 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import javax.ws.rs.core.MediaType;
-
 import java.util.Comparator;
 import java.util.List;
 
-import static com.jayway.restassured.RestAssured.*;
-import static com.jayway.restassured.matcher.RestAssuredMatchers.*;
-import static org.hamcrest.Matchers.*;
+import static com.jayway.restassured.RestAssured.given;
+import static org.hamcrest.Matchers.equalTo;
 
-public class LiderboardResourceTest {
+public class LeaderboardResourceTest {
 
     private Server server;
     private Genson genson;
 
-    private Logger logger = LoggerFactory.getLogger(LiderboardResourceTest.class);
+    private Logger logger = LoggerFactory.getLogger(LeaderboardResourceTest.class);
 
     private Comparator<Player> placeComparator = (o1, o2) ->
             o1.getPlace() > o2.getPlace() ? 1 :
-            o1.getPlace() < o2.getPlace() ? -1 : 0;
+                    o1.getPlace() < o2.getPlace() ? -1 : 0;
 
     @BeforeClass
     public void init() throws InterruptedException {
@@ -63,13 +62,13 @@ public class LiderboardResourceTest {
     private void getDefaultLiderboard(){
         logger.info("Checking that the default liderboard response is valid...");
         String responseJSON =
-        given().
-                accept(MediaType.APPLICATION_JSON).
-        when().
-                get("/leaderboard").
-        then().
-                body("status", equalTo("OK")).
-                statusCode(200).extract().response().asString();
+                given().
+                        accept(MediaType.APPLICATION_JSON).
+                        when().
+                        get("/leaderboard").
+                        then().
+                        body("status", equalTo("OK")).
+                        statusCode(200).extract().response().asString();
 
         /* result is valid json and is deserializable back to the LiderboardResponse */
         List<Player> liderboard = genson.deserialize(responseJSON, LiderboardResponse.class).getLiderboard();
@@ -87,15 +86,15 @@ public class LiderboardResourceTest {
         int from = 1, to = 2;
 
         String responseJSON =
-        given().
-                contentType(MediaType.APPLICATION_JSON).
-                accept(MediaType.APPLICATION_JSON).
-                body( genson.serialize(new LiderboardRangeRequest(from, to)) ).
-        when().
-                post("/leaderboard").
-        then().
-                body("status", equalTo("OK")).
-                statusCode(200).extract().response().asString();
+                given().
+                        contentType(MediaType.APPLICATION_JSON).
+                        accept(MediaType.APPLICATION_JSON).
+                        body( genson.serialize(new LiderboardRangeRequest(from, to)) ).
+                        when().
+                        post("/leaderboard").
+                        then().
+                        body("status", equalTo("OK")).
+                        statusCode(200).extract().response().asString();
 
         /* result is valid json and is deserializable back to the LiderboardResponse */
         List<Player> liderboard = genson.deserialize(responseJSON, LiderboardResponse.class).getLiderboard();
@@ -111,9 +110,50 @@ public class LiderboardResourceTest {
         Assert.assertEquals(liderboard.get(liderboard.size()-1).getPlace(), to-1);
     }
 
-//    @Test
+    @Test
     private void getLiderboardTimed() {
         logger.info("Checking that the timed liderboard response is valid...");
+
+
+        /* first of all get the lider board for the last hour */
+        DateTime to = new DateTime(), from = new DateTime().minusHours(1);
+        String responseJSON =
+                given().
+                        accept(MediaType.APPLICATION_JSON).
+                        contentType(MediaType.APPLICATION_JSON).
+                        body( genson.serialize(new LiderboardTimedRequest(from.getMillis(), to.getMillis()))).
+                when().
+                        post("/leaderboard/timed").
+                then().
+                        body("status", equalTo("OK")).
+                        statusCode(200).extract().response().asString();
+
+        /* result is valid json and is deserializable back to the LiderboardResponse */
+        List<Player> liderboard = genson.deserialize(responseJSON, LiderboardResponse.class).getLiderboard();
+        Assert.assertTrue( !liderboard.isEmpty() );
+        /* lider board is ordered by score descending */
+        Ordering.natural().isOrdered(liderboard);
+        /* lider board is ordered by place ascending */
+        Ordering.from(placeComparator).isOrdered(liderboard);
+
+        /* try to get liderboard from the past - should be empty */
+
+        DateTime fromPast = new DateTime().minusDays(10);
+        DateTime toPast = new DateTime().minusDays(8);
+
+        responseJSON =
+                given().
+                        accept(MediaType.APPLICATION_JSON).
+                        contentType(MediaType.APPLICATION_JSON).
+                        body( genson.serialize(new LiderboardTimedRequest(fromPast.getMillis(), toPast.getMillis()))).
+                when().
+                        post("/leaderboard/timed").
+                then().
+                        body("status", equalTo("OK")).
+                        statusCode(200).extract().response().asString();
+
+        List<Player> liderboardPast = genson.deserialize(responseJSON, LiderboardResponse.class).getLiderboard();
+        Assert.assertTrue( liderboardPast.isEmpty() );
     }
 
     @Test
@@ -122,9 +162,9 @@ public class LiderboardResourceTest {
         String responseJSON =
                 given().
                         accept(MediaType.APPLICATION_JSON).
-                when().
+                        when().
                         get("/leaderboard").
-                then().
+                        then().
                         statusCode(200).extract().response().asString();
 
         /* result is valid json and is deserializable back to the LiderboardResponse */
@@ -136,12 +176,12 @@ public class LiderboardResourceTest {
                 contentType(MediaType.APPLICATION_JSON).
                 body( genson.serialize(
                         new ChangeBanStatusRequest(
-                            ImmutableList.of(bannedUserId)
+                                ImmutableList.of(bannedUserId)
                         ))
                 ).
-        when().
+                when().
                 post("/leaderboard/ban").
-        then().
+                then().
                 statusCode(200);
 
         /* checking that user is not present in the liderboard */
@@ -171,18 +211,18 @@ public class LiderboardResourceTest {
                                 ImmutableList.of(bannedUserId)
                         ))
                 ).
-        when().
+                when().
                 post("/leaderboard/unban").
-        then().
+                then().
                 statusCode(200);
 
         /* checking that user was restored in the liderboard */
         responseJSON =
                 given().
                         accept(MediaType.APPLICATION_JSON).
-                when().
+                        when().
                         get("/leaderboard").
-                then().
+                        then().
                         statusCode(200).extract().response().asString();
 
         /* result is valid json and is deserializable back to the LiderboardResponse */

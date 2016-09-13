@@ -6,11 +6,11 @@ import org.joda.time.DateTime;
 
 import java.util.List;
 
-public interface LiderboardService {
+public interface LeaderboardService {
 
-    List<Player> getLiderboard();
-    List<Player> getLiderboard(int from, int to);
-    List<Player> getLiderboard(DateTime from, DateTime to);
+    List<Player> getLeaderboard();
+    List<Player> getLeaderboard(int from, int to);
+    List<Player> getLeaderboard(DateTime from, DateTime to);
     void banPlayers(List<Integer> playerIds);
     void unbanPlayers(List<Integer> playerIds);
 

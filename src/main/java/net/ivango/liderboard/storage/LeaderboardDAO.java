@@ -6,8 +6,7 @@ import org.joda.time.DateTime;
 
 import java.util.List;
 
-public interface LiderboardDAO {
-    long addPlayer(String name, String avatarURL);
+public interface LeaderboardDAO {
     void changeBanStatus(List<Integer> bannedList, boolean ban);
     List<Player> getPlayers(int from, int to, DateTime fromDateTime, DateTime toDateTime);
 }
