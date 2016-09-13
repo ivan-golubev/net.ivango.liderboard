@@ -11,12 +11,19 @@ Simple leaderboard service, supporting these calls:
 Tech stack
 ----------
 h2 - embedded database
+
 jetty - embedded app server
+
 jersey - REST API
+
 Guice - DI
+
 genson - object-to-JSON mapping
+
 spring-jdbc – object-relation mapping and base initialization
+
 lombok - boilderplate codegen
+
 junit - integration tests
 
 Installation
