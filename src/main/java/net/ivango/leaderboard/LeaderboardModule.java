@@ -1,13 +1,13 @@
-package net.ivango.liderboard;
+package net.ivango.leaderboard;
 
 import com.google.inject.Singleton;
 import com.google.inject.servlet.ServletModule;
 import com.sun.jersey.guice.spi.container.servlet.GuiceContainer;
-import net.ivango.liderboard.rest.LeaderboardResource;
-import net.ivango.liderboard.services.LeaderBoardServiceImpl;
-import net.ivango.liderboard.services.LeaderboardService;
-import net.ivango.liderboard.storage.LeaderboardDAO;
-import net.ivango.liderboard.storage.LeaderboardDAOImpl;
+import net.ivango.leaderboard.rest.LeaderboardResource;
+import net.ivango.leaderboard.services.LeaderBoardServiceImpl;
+import net.ivango.leaderboard.services.LeaderboardService;
+import net.ivango.leaderboard.storage.LeaderboardDAO;
+import net.ivango.leaderboard.storage.LeaderboardDAOImpl;
 import org.eclipse.jetty.servlet.DefaultServlet;
 
 public class LeaderboardModule extends ServletModule {

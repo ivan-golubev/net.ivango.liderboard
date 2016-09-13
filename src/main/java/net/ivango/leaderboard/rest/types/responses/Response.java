@@ -1,4 +1,4 @@
-package net.ivango.liderboard.rest.types.responses;
+package net.ivango.leaderboard.rest.types.responses;
 
 import lombok.Getter;
 

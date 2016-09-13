@@ -1,4 +1,4 @@
-package net.ivango.liderboard;
+package net.ivango.leaderboard;
 
 
 import com.google.inject.Guice;

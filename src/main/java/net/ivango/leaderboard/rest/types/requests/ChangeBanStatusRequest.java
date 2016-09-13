@@ -1,4 +1,4 @@
-package net.ivango.liderboard.rest.types.requests;
+package net.ivango.leaderboard.rest.types.requests;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

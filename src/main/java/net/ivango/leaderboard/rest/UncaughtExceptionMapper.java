@@ -1,8 +1,8 @@
-package net.ivango.liderboard.rest;
+package net.ivango.leaderboard.rest;
 
 
 import lombok.extern.java.Log;
-import net.ivango.liderboard.rest.types.responses.ErrorResponse;
+import net.ivango.leaderboard.rest.types.responses.ErrorResponse;
 
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;

@@ -1,4 +1,4 @@
-package net.ivango.liderboard.storage.types;
+package net.ivango.leaderboard.storage.types;
 
 import lombok.*;
 

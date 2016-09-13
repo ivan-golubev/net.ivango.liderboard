@@ -1,7 +1,7 @@
-package net.ivango.liderboard.storage;
+package net.ivango.leaderboard.storage;
 
 
-import net.ivango.liderboard.storage.types.Player;
+import net.ivango.leaderboard.storage.types.Player;
 import org.joda.time.DateTime;
 
 import java.util.List;

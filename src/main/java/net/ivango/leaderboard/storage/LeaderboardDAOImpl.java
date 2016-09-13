@@ -1,8 +1,8 @@
-package net.ivango.liderboard.storage;
+package net.ivango.leaderboard.storage;
 
 import lombok.extern.java.Log;
-import net.ivango.liderboard.storage.types.Player;
-import net.ivango.liderboard.storage.types.PlayerMapper;
+import net.ivango.leaderboard.storage.types.Player;
+import net.ivango.leaderboard.storage.types.PlayerMapper;
 import org.joda.time.DateTime;
 import org.springframework.jdbc.core.BatchPreparedStatementSetter;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -17,8 +17,8 @@ import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.List;
 
-import static net.ivango.liderboard.storage.SQLRequests.SELECT_LIDERBOARD;
-import static net.ivango.liderboard.storage.SQLRequests.UPDATE_BAN_STATUS;
+import static net.ivango.leaderboard.storage.SQLRequests.SELECT_LEADERBOARD;
+import static net.ivango.leaderboard.storage.SQLRequests.UPDATE_BAN_STATUS;
 
 @Log
 @Singleton
@@ -64,7 +64,7 @@ public class LeaderboardDAOImpl implements LeaderboardDAO {
             ps.setInt(4, offset);
         };
         return jdbcTemplate.query(
-                SELECT_LIDERBOARD,
+                SELECT_LEADERBOARD,
                 pre,
                 playerMapper
         );

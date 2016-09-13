@@ -1,4 +1,4 @@
-group 'net.ivango.liderboard'
+group 'net.ivango.leaderboard'
 version '1.0'
 
 apply plugin: 'java'
@@ -9,14 +9,20 @@ apply plugin: 'application'
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
 
-mainClassName = "net.ivango.liderboard.StartServer"
+mainClassName = "net.ivango.leaderboard.StartServer"
 
 repositories {
     mavenCentral()
 }
 
+test {
+    testLogging {
+        events "passed", "skipped", "failed", "standardOut", "standardError"
+    }
+}
+
 dependencies {
-    compile 'org.eclipse.jetty:jetty-server:9.3.11.v20160721',
+    compile 'org.eclipse.jetty:jetty-server:9.ge3.11.v20160721',
             'org.eclipse.jetty:jetty-servlet:9.3.11.v20160721',
             'org.glassfish.jersey.containers:jersey-container-servlet:2.23.2',
             'com.sun.jersey.contribs:jersey-guice:1.19.2',
@@ -30,7 +36,7 @@ dependencies {
 
     compileOnly 'org.projectlombok:lombok:1.16.10'
 
-    testCompile 'org.testng:testng:6.9.10',
+    testCompile 'junit:junit:4.4',
                 'com.jayway.restassured:rest-assured:2.9.0'
 
 }

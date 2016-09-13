@@ -1,8 +1,8 @@
-package net.ivango.liderboard.storage;
+package net.ivango.leaderboard.storage;
 
 public interface SQLRequests {
 
-    String SELECT_LIDERBOARD =
+    String SELECT_LEADERBOARD =
             "SELECT player_id, name, avatar, max(score) AS max_score FROM player " +
                     "INNER JOIN scores ON player.player_id=scores.player_id_fk " +
                     "WHERE banned=0 AND score_timestamp BETWEEN ? AND ? " +
