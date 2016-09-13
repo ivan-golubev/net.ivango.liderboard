@@ -17,7 +17,7 @@ Guice - DI
 genson - object-to-JSON mapping
 spring-jdbc – object-relation mapping and base initialization
 lombok - boilderplate codegen
-testng - integration tests
+junit - integration tests
 
 Installation
 -------------------------
